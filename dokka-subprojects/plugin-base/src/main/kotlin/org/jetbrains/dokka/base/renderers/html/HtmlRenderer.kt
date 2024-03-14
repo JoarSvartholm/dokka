@@ -120,7 +120,7 @@ public open class HtmlRenderer(
         )
     }
 
-    private fun createTabsForPackage(page: PackagePage): List<ContentTab> {
+    public open fun createTabsForPackage(page: PackagePage): List<ContentTab> {
         val p = page.documentables.single() as DPackage
         return listOfNotNull(
             if (p.typealiases.isEmpty() && p.classlikes.isEmpty()) null else ContentTab(
@@ -166,7 +166,7 @@ public open class HtmlRenderer(
                         button(classes = "section-tab") {
                             if (index == 0) attributes["data-active"] = ""
                             attributes[TOGGLEABLE_CONTENT_TYPE_ATTR] =
-                                contentTab.tabbedContentTypes.joinToString(",") { it.toHtmlAttribute() }
+                                contentTab.tabbedContentTypes.joinToString(",") { it.htmlAttribute }
                             text(contentTab.text)
                         }
                     }
@@ -232,7 +232,7 @@ public open class HtmlRenderer(
                 this@wrapGroup.childrenCallback()
             }
             node.extra.extraTabbedContentType() != null -> div() {
-                node.extra.extraTabbedContentType()?.let { attributes[TOGGLEABLE_CONTENT_TYPE_ATTR] = it.value.toHtmlAttribute() }
+                node.extra.extraTabbedContentType()?.let { attributes[TOGGLEABLE_CONTENT_TYPE_ATTR] = it.value.htmlAttribute }
                 this@wrapGroup.childrenCallback()
             }
             else -> childrenCallback()
@@ -539,7 +539,7 @@ public open class HtmlRenderer(
     ) {
         buildAnchor(contextNode)
         div(classes = "table-row") {
-            contextNode.extra.extraTabbedContentType()?.let { attributes[TOGGLEABLE_CONTENT_TYPE_ATTR] = it.value.toHtmlAttribute() }
+            contextNode.extra.extraTabbedContentType()?.let { attributes[TOGGLEABLE_CONTENT_TYPE_ATTR] = it.value.htmlAttribute }
             addSourceSetFilteringAttributes(contextNode)
             div("main-subrow keyValue " + contextNode.style.joinToString(separator = " ")) {
                 buildRowHeaderLink(toRender, pageContext, sourceSetRestriction, contextNode.anchor)
@@ -1012,27 +1012,12 @@ public open class HtmlRenderer(
     private val isPartial = context.configuration.delayTemplateSubstitution
 }
 
-private fun TabbedContentType.toHtmlAttribute(): String =
-    when(this) {
-        is BasicTabbedContentType ->
-            when(this) {
-                BasicTabbedContentType.ENTRY -> "ENTRY"
-                BasicTabbedContentType.TYPE -> "TYPE"
-                BasicTabbedContentType.CONSTRUCTOR -> "CONSTRUCTOR"
-                BasicTabbedContentType.FUNCTION -> "FUNCTION"
-                BasicTabbedContentType.PROPERTY -> "PROPERTY"
-                BasicTabbedContentType.EXTENSION_PROPERTY -> "EXTENSION_PROPERTY"
-                BasicTabbedContentType.EXTENSION_FUNCTION -> "EXTENSION_FUNCTION"
-            }
-    else -> throw IllegalStateException("Unknown TabbedContentType $this")
-    }
-
 /**
  * Tabs for a content with [ContentStyle.TabbedContent].
  *
  * @see ContentStyle.TabbedContent]
  */
-private data class ContentTab(val text: String, val tabbedContentTypes: List<TabbedContentType>)
+public data class ContentTab(val text: String, val tabbedContentTypes: List<TabbedContentType>)
 
 public fun List<SimpleAttr>.joinAttr(): String = joinToString(" ") { it.extraKey + "=" + it.extraValue }
 

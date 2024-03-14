@@ -40,6 +40,8 @@ public open class DefaultPageCreator(
     public val customTagContentProviders: List<CustomTagContentProvider> = emptyList(),
     public val documentableAnalyzer: DocumentableSourceLanguageParser
 ) {
+    protected open val packagesTitle: String = "Packages"
+    protected open val packageLevelTitle: String = "Package-level declarations"
     protected open val contentBuilder: PageContentBuilder = PageContentBuilder(
         commentsToContentConverter, signatureProvider, logger
     )
@@ -264,7 +266,7 @@ public open class DefaultPageCreator(
             }
 
             block(
-                name = "Packages",
+                name = packagesTitle,
                 level = 2,
                 kind = ContentKind.Packages,
                 elements = m.packages,
@@ -359,7 +361,7 @@ public open class DefaultPageCreator(
     protected open fun contentForPackage(p: DPackage): ContentGroup {
         return contentBuilder.contentFor(p) {
             group(kind = ContentKind.Cover) {
-                cover("Package-level declarations")
+                cover(packageLevelTitle)
                 if (contentForDescription(p).isNotEmpty()) {
                     sourceSetDependentHint(
                         dri = p.dri,
@@ -405,14 +407,14 @@ public open class DefaultPageCreator(
         extensions: List<Documentable> = emptyList()
     ): ContentGroup = contentForScopes(listOf(s), sourceSets, extensions)
 
-    private fun contentForScope(
+    protected open fun contentForScope(
         dri: Set<DRI>,
         sourceSets: Set<DokkaSourceSet>,
         types: List<Documentable>,
         functions: List<DFunction>,
         properties: List<DProperty>,
         extensions: List<Documentable>,
-    ) = contentBuilder.contentFor(dri, sourceSets) {
+    ): ContentGroup = contentBuilder.contentFor(dri, sourceSets) {
         typesBlock(types)
         val (extensionProperties, extensionFunctions) = extensions.splitPropsAndFuns()
         if (separateInheritedMembers) {
@@ -636,7 +638,7 @@ public open class DefaultPageCreator(
             }
         }
 
-    private fun DocumentableContentBuilder.typesBlock(types: List<Documentable>) {
+    protected fun DocumentableContentBuilder.typesBlock(types: List<Documentable>) {
         if (types.isEmpty()) return
 
         val grouped = types
@@ -700,10 +702,10 @@ public open class DefaultPageCreator(
         )
     }
 
-    private fun DocumentableContentBuilder.functionsOrPropertiesBlock(
+    protected fun DocumentableContentBuilder.functionsOrPropertiesBlock(
         name: String,
         contentKind: ContentKind,
-        contentType: BasicTabbedContentType,
+        contentType: TabbedContentType,
         declarations: List<Documentable>,
         extensions: List<Documentable>
     ) {
@@ -757,7 +759,7 @@ public open class DefaultPageCreator(
         name: String,
         kind: ContentKind,
         extra: PropertyContainer<ContentNode>,
-        contentType: BasicTabbedContentType,
+        contentType: TabbedContentType,
         groups: List<DivergentElementGroup>,
     ) {
         if (groups.isEmpty()) return

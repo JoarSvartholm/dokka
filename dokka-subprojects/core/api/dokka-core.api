@@ -3485,6 +3485,7 @@ public final class org/jetbrains/dokka/pages/BasicTabbedContentType : java/lang/
 	public static final field FUNCTION Lorg/jetbrains/dokka/pages/BasicTabbedContentType;
 	public static final field PROPERTY Lorg/jetbrains/dokka/pages/BasicTabbedContentType;
 	public static final field TYPE Lorg/jetbrains/dokka/pages/BasicTabbedContentType;
+	public fun getHtmlAttribute ()Ljava/lang/String;
 	public static fun valueOf (Ljava/lang/String;)Lorg/jetbrains/dokka/pages/BasicTabbedContentType;
 	public static fun values ()[Lorg/jetbrains/dokka/pages/BasicTabbedContentType;
 }
@@ -4298,6 +4299,7 @@ public final class org/jetbrains/dokka/pages/SymbolContentKind : java/lang/Enum,
 }
 
 public abstract interface class org/jetbrains/dokka/pages/TabbedContentType {
+	public abstract fun getHtmlAttribute ()Ljava/lang/String;
 }
 
 public final class org/jetbrains/dokka/pages/TabbedContentTypeExtra : org/jetbrains/dokka/model/properties/ExtraProperty {

@@ -39,13 +39,18 @@ public enum class BasicTabbedContentType : TabbedContentType {
     // These types are needed to separate member functions and extension function on classlike pages.
     // The same split rules are also used
     // when grouping functions/properties with the same name on pages for classlike and package
-    EXTENSION_PROPERTY, EXTENSION_FUNCTION
+    EXTENSION_PROPERTY, EXTENSION_FUNCTION;
+
+    override val htmlAttribute: String
+        get() = name
 }
 
 /**
  * It is used only to mark content for tabs in HTML format
  */
-public interface TabbedContentType
+public interface TabbedContentType {
+    public val htmlAttribute: String
+}
 
 /**
  * @see TabbedContentType
