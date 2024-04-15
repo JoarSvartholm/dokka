@@ -1396,8 +1396,6 @@ public class org/jetbrains/dokka/base/translators/documentables/DefaultPageCreat
 	public final fun getDocumentableAnalyzer ()Lorg/jetbrains/dokka/analysis/kotlin/internal/DocumentableSourceLanguageParser;
 	public final fun getLogger ()Lorg/jetbrains/dokka/utilities/DokkaLogger;
 	protected final fun getMergeImplicitExpectActualDeclarations ()Z
-	protected fun getPackageLevelTitle ()Ljava/lang/String;
-	protected fun getPackagesTitle ()Ljava/lang/String;
 	protected final fun getSeparateInheritedMembers ()Z
 	public fun pageForClasslike (Lorg/jetbrains/dokka/model/Documentable;)Lorg/jetbrains/dokka/pages/ClasslikePageNode;
 	public fun pageForClasslikes (Ljava/util/List;)Lorg/jetbrains/dokka/pages/ClasslikePageNode;
@@ -1409,6 +1407,8 @@ public class org/jetbrains/dokka/base/translators/documentables/DefaultPageCreat
 	public fun pageForPackage (Lorg/jetbrains/dokka/model/DPackage;)Lorg/jetbrains/dokka/pages/PackagePageNode;
 	public fun pageForProperties (Ljava/util/List;)Lorg/jetbrains/dokka/pages/MemberPageNode;
 	public fun pageForProperty (Lorg/jetbrains/dokka/model/DProperty;)Lorg/jetbrains/dokka/pages/MemberPageNode;
+	protected fun titleForModule (Lorg/jetbrains/dokka/model/DModule;)Ljava/lang/String;
+	protected fun titleForPackage (Lorg/jetbrains/dokka/model/DPackage;)Ljava/lang/String;
 	protected fun toHeaderString (Lorg/jetbrains/dokka/model/doc/TagWrapper;)Ljava/lang/String;
 	protected final fun typesBlock (Lorg/jetbrains/dokka/base/translators/documentables/PageContentBuilder$DocumentableContentBuilder;Ljava/util/List;)V
 }

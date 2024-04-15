@@ -40,8 +40,8 @@ public open class DefaultPageCreator(
     public val customTagContentProviders: List<CustomTagContentProvider> = emptyList(),
     public val documentableAnalyzer: DocumentableSourceLanguageParser
 ) {
-    protected open val packagesTitle: String = "Packages"
-    protected open val packageLevelTitle: String = "Package-level declarations"
+    protected open fun titleForModule(m: DModule): String = "Packages"
+    protected open fun titleForPackage(p: DPackage): String = "Package-level declarations"
     protected open val contentBuilder: PageContentBuilder = PageContentBuilder(
         commentsToContentConverter, signatureProvider, logger
     )
@@ -266,7 +266,7 @@ public open class DefaultPageCreator(
             }
 
             block(
-                name = packagesTitle,
+                name = titleForModule(m),
                 level = 2,
                 kind = ContentKind.Packages,
                 elements = m.packages,
@@ -361,7 +361,7 @@ public open class DefaultPageCreator(
     protected open fun contentForPackage(p: DPackage): ContentGroup {
         return contentBuilder.contentFor(p) {
             group(kind = ContentKind.Cover) {
-                cover(packageLevelTitle)
+                cover(titleForPackage(p))
                 if (contentForDescription(p).isNotEmpty()) {
                     sourceSetDependentHint(
                         dri = p.dri,
